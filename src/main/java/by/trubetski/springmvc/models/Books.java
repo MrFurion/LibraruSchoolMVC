@@ -16,6 +16,9 @@ public class Books {
     @Max(value = 150, message = "Age should be before 150")
     private int age;
 
+    public Books() {
+    }
+
     public Books(String name, String author, int age) {
         this.name = name;
         this.author = author;
