@@ -13,7 +13,7 @@ public class Books {
     @Size(min = 2, max = 30, message="Author should be between 2 and 30 characters")
     private String author;
     @Min(value = 0, message = "Age should be greater then 0")
-    @Max(value = 150, message = "Age should be before 150")
+    @Max(value = 3000, message = "Age should be before 3000")
     private int age;
 
     public Books() {

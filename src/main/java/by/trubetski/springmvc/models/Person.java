@@ -2,17 +2,17 @@ package by.trubetski.springmvc.models;
 import javax.validation.constraints.*;
 
 public class Person {
+    private int id;
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 100, message = "Author should be between 2 and 100 characters")
     private String fullName;
-    @Min(value = 0, message = "Age should be greater then 0")
-    @Max(value = 150, message = "Age should be before 150")
+    @Min(value = 1900, message = "Age should be greater then 0")
+    @Max(value = 3000, message = "Age should be before 150")
     private int age;
-
     public Person() {
     }
 
-    public Person(String fullName, int age) {
+    public Person(int id, String fullName, int age) {
         this.fullName = fullName;
         this.age = age;
     }
@@ -31,5 +31,13 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
