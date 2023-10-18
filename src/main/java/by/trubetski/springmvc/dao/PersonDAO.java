@@ -44,10 +44,10 @@ public class PersonDAO {
         jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
     }
 
-//    public List<Books> getBooksByPersonId(int id) {
-//        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id = ?", new Object[]{id},
-//                new BeanPropertyRowMapper<>(Books.class));
-//    }
+    public List<Books> getBooksOfPeople(int id) {
+        return jdbcTemplate.query("SELECT * FROM Books WHERE person_id = ?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Books.class));
+    }
     public Optional<Person> getPersonByFullName(String fullName) {
         return jdbcTemplate.query("SELECT * FROM Person WHERE fullName=?", new Object[]{fullName},
                 new BeanPropertyRowMapper<>(Person.class)).stream().findAny();

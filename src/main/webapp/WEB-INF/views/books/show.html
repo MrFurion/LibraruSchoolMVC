@@ -11,6 +11,18 @@
 
 <br/>
 
+<form th:method="PATCH" th:action="@{/books/addBook}">
+    <label for="person">Выберите пользователя книгой</label>
+    <select th:object="${person}" th:field="*{id}" id="person">
+        <option th:each="person : ${people}" th:value="${person.getId()}"
+        th:text="${person.getFullName()}"></option>
+    </select>
+
+    <input type="submit" value="Назначить книгу"/>
+</form>
+
+<br/>
+
 <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
     <input type="submit" value="Удалить книгу"/>
 </form>

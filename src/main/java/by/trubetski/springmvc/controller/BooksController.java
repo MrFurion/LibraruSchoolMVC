@@ -1,7 +1,9 @@
 package by.trubetski.springmvc.controller;
 
 import by.trubetski.springmvc.dao.BooksDAO;
+import by.trubetski.springmvc.dao.PersonDAO;
 import by.trubetski.springmvc.models.Books;
+import by.trubetski.springmvc.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +16,12 @@ import javax.validation.Valid;
 @RequestMapping("/books")
 public class BooksController {
     private final BooksDAO booksDAO;
+    private final PersonDAO personDAO;
 
     @Autowired
-    public BooksController(BooksDAO booksDAO) {
+    public BooksController(BooksDAO booksDAO, PersonDAO personDAO) {
         this.booksDAO = booksDAO;
+        this.personDAO = personDAO;
     }
     @GetMapping()
     public String index(Model model) {
@@ -66,5 +70,10 @@ public class BooksController {
     public String delete(@PathVariable("id") int id) {
         booksDAO.delete(id);
         return "redirect:/books";
+    }
+    @GetMapping("/{id}/addBook")
+    public String addBook(Model model, @ModelAttribute("person")Person person){
+        model.addAttribute("people", personDAO.index());
+        return "books/show";
     }
 }
