@@ -41,12 +41,15 @@ public class BooksDAO {
         jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
     }
 
-    //    public List<Books> getBooksByPersonId(int id) {
-//        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id = ?", new Object[]{id},
-//                new BeanPropertyRowMapper<>(Books.class));
-//    }
-    public Optional<Person> getPersonByFullName(String fullName) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE fullName=?", new Object[]{fullName},
+
+    public Optional<Person> getUserBook(int id) {
+        return jdbcTemplate.query("SELECT Person.* FROM Books JOIN Person ON Books.person_id = Person.id WHERE Books.id=?", new Object[]{id},
                 new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+    }
+    public void freedomBook(int id){
+        jdbcTemplate.update("update Books set person_id=null where id=?", id);
+    }
+    public void joinBook(int id, Person selectPersonId){
+        jdbcTemplate.update("update Books set person_id=? where id=?", selectPersonId.getId(), id);
     }
 }

@@ -11,7 +11,16 @@
 
 <br/>
 
-<form th:method="PATCH" th:action="@{/books/addBook}">
+<div th:if="${user}">
+    <span>Книга сейчас у: </span> <span th:text="${user.getFullName()}">Person Name</span>
+        <form th:method="PATCH" th:action="@{/books/{id}/freedomBook(id=${book.getId()})}">
+            <input type="submit" value="Освободить книгу"/>
+        </form>
+    </form>
+</div>
+
+<div th:if="${people}">
+<form th:method="PATCH" th:action="@{/books/{id}/joinBook(id=${book.getId()})}">
     <label for="person">Выберите пользователя книгой</label>
     <select th:object="${person}" th:field="*{id}" id="person">
         <option th:each="person : ${people}" th:value="${person.getId()}"
@@ -20,7 +29,7 @@
 
     <input type="submit" value="Назначить книгу"/>
 </form>
-
+</div>
 <br/>
 
 <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">

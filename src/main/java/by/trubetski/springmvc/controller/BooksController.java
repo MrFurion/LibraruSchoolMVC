@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
@@ -30,8 +31,17 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
         model.addAttribute("book", booksDAO.show(id));
+
+        Optional<Person> bookUser = booksDAO.getUserBook(id);
+
+        if (bookUser.isPresent()){
+            model.addAttribute("user", bookUser.get());
+        }else {
+            model.addAttribute("people", personDAO.index());
+        }
+
         return "books/show";
     }
 
@@ -71,9 +81,14 @@ public class BooksController {
         booksDAO.delete(id);
         return "redirect:/books";
     }
-    @GetMapping("/{id}/addBook")
-    public String addBook(Model model, @ModelAttribute("person")Person person){
-        model.addAttribute("people", personDAO.index());
-        return "books/show";
+    @PatchMapping("/{id}/freedomBook")
+    public String freedomBook(@PathVariable("id") int id){
+        booksDAO.freedomBook(id);
+        return "redirect:/books/" + id;
+    }
+    @PatchMapping("/{id}/joinBook")
+    public String joinBook(@PathVariable("id")int id, @ModelAttribute("person") Person selectPerson){
+        booksDAO.joinBook(id, selectPerson);
+        return "redirect:/books/" + id;
     }
 }
